@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FirstAPI.Model;
-using FirstAPI.Services;
+using FirstAPI.Business;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FirstAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+
+    [ApiVersion("1")]
+    [Route("api/[controller]/v{version:apiVersion}")]
+   
     public class PersonController : ControllerBase
     {
-        private readonly IPersonService _personService;
+        private readonly IPersonBusiness personBusiness;
 
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonBusiness personbusiness)
         {
-            _personService = personService;
+            personBusiness = personbusiness;
         }
 
 
@@ -25,7 +27,7 @@ namespace FirstAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<Person> person = _personService.FindAll();
+            List<Person> person = personBusiness.FindAll();
 
             if(person == null)
             {
@@ -39,7 +41,7 @@ namespace FirstAPI.Controllers
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
-            var person = _personService.FindById(id);
+            var person = personBusiness.FindById(id);
             if(person == null)
             {
                 return NotFound();
@@ -56,18 +58,18 @@ namespace FirstAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok(_personService.Create(person));
+            return Ok(personBusiness.Create(person));
         }
 
         // PUT: api/Person/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult Put(int id, [FromBody] Person person)
         {
             if (person == null)
             {
                 return BadRequest();
             }
-            return Ok(_personService.Update(person));
+            return Ok(personBusiness.Update(person));
         }
     
 
@@ -75,7 +77,7 @@ namespace FirstAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            _personService.Delete(id);
+            personBusiness.Delete(id);
 
             return NoContent();
         }

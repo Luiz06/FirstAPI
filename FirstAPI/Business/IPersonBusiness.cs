@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 
-namespace FirstAPI.Services
+namespace FirstAPI.Business
 {
-    public interface IPersonService
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindById(long Id);

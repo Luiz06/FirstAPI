@@ -1,18 +1,17 @@
-﻿using System;
+﻿using FirstAPI.Data;
+using FirstAPI.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using FirstAPI.Data;
-using FirstAPI.Model;
+using System.Threading.Tasks;
 
-
-namespace FirstAPI.Services.Implementattion
+namespace FirstAPI.Repository.Implementattions
 {
-    public class PersonService : IPersonService
+    public class PersonRepository : IPersonRepository
     {
         private readonly FirstAPIContext _context;
 
-        public PersonService(FirstAPIContext context)
+        public PersonRepository(FirstAPIContext context)
         {
             _context = context;
         }
@@ -24,7 +23,8 @@ namespace FirstAPI.Services.Implementattion
                 _context.Add(person);
                 _context.SaveChanges();
 
-            }catch(Exception e)
+            }
+            catch (Exception)
             {
                 throw new Exception("erro");
             }
@@ -44,11 +44,11 @@ namespace FirstAPI.Services.Implementattion
                 _context.SaveChanges();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new Exception("erro");
             }
-           
+
         }
 
         public List<Person> FindAll()
@@ -64,7 +64,7 @@ namespace FirstAPI.Services.Implementattion
 
         public Person Update(Person person)
         {
-            bool has =  _context.Persons.Any(x => x.Id == person.Id);
+            bool has = _context.Persons.Any(x => x.Id == person.Id);
 
             if (!has)
             {
@@ -77,7 +77,7 @@ namespace FirstAPI.Services.Implementattion
                 _context.SaveChanges();
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new Exception("erro");
             }

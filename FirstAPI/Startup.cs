@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FirstAPI.Data;
-using FirstAPI.Services;
-using FirstAPI.Services.Implementattion;
+using FirstAPI.Business;
+using FirstAPI.Business.Implementattion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using FirstAPI.Repository.Implementattions;
+using FirstAPI.Repository;
 
 namespace FirstAPI
 {
@@ -35,7 +37,13 @@ namespace FirstAPI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddScoped<IPersonService, PersonService>();
+            //versionamento(baixar nuget microsot.aspnetcore.mvc.versioning
+            services.AddApiVersioning();
+
+
+            //injeçoes de deperndencia
+            services.AddScoped<IPersonBusiness, PersonBusiness>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
